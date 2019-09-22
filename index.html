@@ -1,37 +1,237 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>IOMapper</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-		<link href="https://fonts.googleapis.com/css?family=Cutive+Mono&display=swap" rel="stylesheet">
-	</head>
-	<style>
-		html, body {
-			height: 100%;
-		}
 
-		img {
-			width: 5%;
-			height: auto;
-		}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome file</title>
+    <link rel="stylesheet" href="https://stackedit.io/style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<style>
+  h1:after, h2:after {
+    border-bottom: none !important;
+  }
+  h1, h2 {
+    margin: 32px 0 !important;
+  }
+  footer {
+    background-color: #7FB3D5;
+    color: #457694;
+  }
+</style>
+<body class="stackedit">
+    <div class="container p-5">
+        <h1 id="iomapper">IOMapper</h1>
+        <p><img src="https://img.shields.io/badge/tag%20-1.0.0-brightgreen.svg" alt="tag"> <a href="https://github.com/jacobgacosta/iomapper/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/licence%20-MIT-orange.svg" alt="licence"></a> <a href="https://search.maven.org/artifact/dev.iomapper/iomapper/1.0.0/jar"><img src="https://maven-badges.herokuapp.com/maven-central/dev.iomapper/iomapper/badge.svg" alt="Maven Central"></a> <img src="https://img.shields.io/badge/powered%20by-java-blue.svg" alt="Powered by"> <img src="https://img.shields.io/badge/documentation%20-0.0.1-yellow.svg" alt="documentation"></p>
+        <p><strong>IOMapper</strong> is an easy and powerful mapping tool built entirely in java language without third-party dependencies.</p>
+        <ul>
+            <li>No annotations</li>
+            <li>No self-generated code</li>
+            <li>Easy integration</li>
+            <li>Scalable</li>
+            <li>Syntactic suggar</li>
+        </ul>
+        <h1 id="main-features">Main Features</h1>
+        <p><strong>Toggle mapping</strong></p>
+        <p>Since <strong>IOMapper</strong> was designed to avoid these annoying verbose mapping lines, it’s able to identify fields with identical names and perform the mapping automatically.</p>
+        <p>Also the toggle in mapping is simply easy using a bridge class and through the <em><strong>outer</strong></em> and <em><strong>inner</strong></em> methods:</p>
+        <pre class=" language-java"><code class="prism  language-java"><span class="token keyword">private</span> BridgeMap<span class="token operator">&lt;</span>SourceObject<span class="token punctuation">,</span> TargetObject<span class="token operator">&gt;</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">IOMapBridge</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <pre class=" language-java"><code class="prism  language-java">TargetObject mappedTarget <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>yourSourceObjectInstance<span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>TargetObject<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <pre class=" language-java"><code class="prism  language-java">SourceObject mappedSource <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>yourTargetObjectInstance<span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>SourceObject<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <p><strong>Ignoring mapping fields</strong></p>
+        <p><strong>IOMapper</strong> allows you to ignore source fields in automatic mappings as follow:</p>
+        <pre class=" language-java"><code class="prism  language-java">TargetObject target <span class="token operator">=</span> map
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>   
+    <span class="token punctuation">.</span><span class="token function">ignoring</span><span class="token punctuation">(</span>ignorableFields <span class="token operator">-</span><span class="token operator">&gt;</span>
+      ignorableFields
+          <span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation">(</span><span class="token string">"nameSourceField1"</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">ignore</span><span class="token punctuation">(</span><span class="token string">"nameSourceField2"</span><span class="token punctuation">)</span>  
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <p>In this case, <strong>nameSourceField1</strong> and <strong>nameSourceField2</strong> belonging to source object instance, are ignored in automatic mapping.</p>
+        <p><strong>Explicit mappings</strong></p>
+        <p>If you want to carry out an explicit mapping in the case of fields with different names <strong>source-target</strong> it’s possible as follows:</p>
+        <pre class=" language-java"><code class="prism  language-java">TargetObject target <span class="token operator">=</span> map
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+    <span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span>customMapping <span class="token operator">-</span><span class="token operator">&gt;</span>  
+        customMapping<span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span><span class="token string">"nameSourceField"</span><span class="token punctuation">,</span> <span class="token string">"nameTargetField"</span><span class="token punctuation">)</span>  
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <p>The <em><strong>relate</strong></em> method receives two arguments: <strong>source</strong> field and <strong>target</strong> field in that order.</p>
+        <p><strong>Functions</strong></p>
+        <p>This is where the magic begins, <strong>IOMapper</strong> is able to execute functions on the fields as follows:</p>
+        <p>We’re going to use an example where it’s needed get a full name as a result of fields concatenation in a User object:</p>
+        <pre class=" language-java"><code class="prism  language-java">User user <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>userDtoInstance<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>User<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span>customMapping <span class="token operator">-</span><span class="token operator">&gt;</span>  
+        customMapping  
+            <span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span><span class="token string">"concat(name, middleName, lastName, ['s'])"</span><span class="token punctuation">,</span> <span class="token string">"name"</span><span class="token punctuation">)</span>  
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+</code></pre>
+        <p>As you can see, it is possible to make use of functions through custom mappings, in this case the <strong>concat</strong> function is applied to the fields: <strong>name</strong>, <strong>middleName</strong>, <strong>lastName</strong>. It should be taken into account that is necessary to use a delimiter that help us separate the fields, in this case ‘<strong>s</strong>’ is the delimiter used, which represents a blank.</p>
+        <blockquote>
+            <p><strong>Note:</strong> It is possible to set any character as a delimiter, however ‘s’ is a<br>
+                preset delimiter. The delimiter must be the last argument of the<br>
+                function and must also be within brackets.</p>
+            <p>It is also worth mentioning that IOMapper encourages the use of <strong>conventions</strong>, forcing the use of a comma separated by a space for multiple arguments.</p>
+            <p>field1, field2 - <strong>GOOD</strong><br>
+                field1,field2 - <strong>WRONG</strong></p>
+        </blockquote>
+        <p><strong>If you thought it was over, wait for more …</strong></p>
+        <p><strong>Multiple mapping</strong></p>
+        <p>if you need to assign the same value to multiple target fields <strong>IOMapper</strong> can do this for you.</p>
+        <p>Taking our previous example:</p>
+        <pre class=" language-java"><code class="prism  language-java">User user <span class="token operator">=</span> map<span class="token punctuation">.</span><span class="token function">inner</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>userDtoInstance<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>User<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span>customMapping <span class="token operator">-</span><span class="token operator">&gt;</span>  
+        customMapping  
+                <span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"alias, userId"</span><span class="token punctuation">)</span>  
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <p>In this case, the value of <strong>name</strong> field is assigned to <strong>alias</strong> and <strong>userId</strong> target fields. As you can see, the second argument is separated by a comma in the string.</p>
+        <h1 id="iomapper">Summary</h1>
+        <p>So far, <strong>IOMapper</strong> has the following features:</p>
+        <ul>
+            <li>Automatic mapping <strong>source-target</strong> fields with identical names.</li>
+            <li>Ignorable fields for mapping</li>
+            <li>Explicit mapping</li>
+            <li>Execution of functions (only in explicit mapping for source fields)</li>
+            <li>Mapping to multiple destination fields</li>
+        </ul>
+        <p><strong>And in case you thought it was not possible</strong>…</p>
+        <h1 id="iomapper">Nesting</h1>
+        <p>As an additional touch, <strong>IOMapper</strong> can also perform operations on nested fields as we will see later.</p>
+        <p>The way to access nested fields is through the <em><strong>dot operator</strong></em>, just as you would in a Java object to access its properties or methods, thus representing the field path as follows:</p>
+        <p><em><strong>Ignorable fields</strong></em></p>
+        <p>Ignoring the <strong>state</strong> field inside the <strong>Address</strong> object.</p>
+        <p><code>ignorableFields.ignore("address.state")</code></p>
+        <p>remember that the ignorable field is the one belonging to the source field.</p>
+        <p><em><strong>Explicit nested mapping</strong></em></p>
+        <p>Mapping the <strong>zip</strong> field inside the <strong>AddressDto</strong> object to the <strong>zipCode</strong> field inside the <strong>Address</strong> object.</p>
+        <p><code>relate("addressDto.zip", "address.zipCode")</code></p>
+        <p>Once again, we have our <strong>source</strong> field as the first argument and our <strong>destination</strong> field as the second one.</p>
+        <p><em><strong>Functions</strong></em></p>
+        <p>The <strong>concat</strong> function is invoked at the same level where the fields to which this function will be applied are located.</p>
+        <p><code>customMapping.relate("addressDto.concat(state, zip, ['*'])", "fullAddress")</code></p>
+        <p>In this case the function is invoked within the <strong>AddressDto</strong> object for the <strong>state</strong> and <strong>zip</strong> fields.</p>
+        <p><strong>And the stellar is for…</strong></p>
+        <p><strong>NESTED FUNCTIONS</strong></p>
+        <p><strong>IOMapper</strong> which thinks about the complexity of its assignments, has integrated support for nested functions, which allows several functions to be invoked on the value of a field or fields of an object as follows:</p>
+        <pre class=" language-java"><code class="prism  language-java">NumericDto numericDto <span class="token operator">=</span> map
+    <span class="token punctuation">.</span><span class="token function">outer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>numericModelInstance<span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">to</span><span class="token punctuation">(</span>NumericDto<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span>customMapping <span class="token operator">-</span><span class="token operator">&gt;</span>  
+        customMapping<span class="token punctuation">.</span><span class="token function">relate</span><span class="token punctuation">(</span><span class="token string">"toString(add(add(byteField, shortField), 10))"</span><span class="token punctuation">,</span> <span class="token string">"stringI"</span><span class="token punctuation">)</span>  
+    <span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+        <p>In this case we have some functions applied on pair of fields belonging to the <strong>numericModelInstance</strong> object (<strong>toString</strong> and <strong>add</strong> (twice) functions): <strong>byteField</strong> (<strong>=7</strong>), <strong>shortField</strong> (<strong>=7</strong>) and the value <strong>10</strong> (a random number) to finally assign the result to the <strong>stringI</strong> field (found in the <strong>NumericDto</strong> object).</p>
+        <p>Testing the previous snippet through a test assertion, the following statement must be true.</p>
+        <p><code>assertEquals("24", numericDto.getStringI());</code></p>
+        <p>Taking into account the need of the previous example, first the sum of the <strong>byteField</strong> and <strong>shortField</strong> field is done and then add its result to the number <strong>10</strong>, finally the latter is converted to a String type to be assigned to <strong>stringI</strong> of the same type.</p>
+        <p>As you can see, it is possible to assign literals without the need of an associated field, in this case the value <strong>10</strong>.</p>
+        <p>and as expected…</p>
+        <p><em><strong>Nested functions in nested fields</strong></em></p>
+        <p>Without leaving nested operations aside <strong>IOMapper</strong> is able to apply nested functions in nested fields as follows:</p>
+        <p><code>customMapping.relate("nestedNumericModel.toString(add(add(number1, number2), 7))", "stringI")</code></p>
+        <p><strong>toString</strong> function is applied on fields of <strong>nestedNumericModel</strong> object which in turn is an object of <strong>numericModelInstance</strong> from our previous example.</p>
+        <h1 id="iomapper">Build-in-Functions</h1>
+        <p><strong>IOMapper</strong> integrates some functions commonly used for data processing.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>operation</th>
+                    <th>parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>add</td>
+                    <td>sum numerical types</td>
+                    <td><strong>int</strong>, <strong>long</strong>, <strong>float</strong>, <strong>double</strong></td>
+                </tr>
+                <tr>
+                    <td>concat</td>
+                    <td>concatenates values taken as string</td>
+                    <td><strong>string</strong> and the optional last argument must also be within brackets the way: <strong>[‘<strong>delimiter</strong>’]</strong></td>
+                </tr>
+                <tr>
+                    <td>toBoolean</td>
+                    <td>convert a value to boolean</td>
+                    <td>any value assignable to <strong>boolean</strong></td>
+                </tr>
+                <tr>
+                    <td>toByte</td>
+                    <td>convert a value to byte</td>
+                    <td>any value assignable to <strong>byte</strong></td>
+                </tr>
+                <tr>
+                    <td>toDouble</td>
+                    <td>convert a value to double</td>
+                    <td>any value assignable to <strong>double</strong></td>
+                </tr>
+                <tr>
+                    <td>toFloat</td>
+                    <td>convert a value to float</td>
+                    <td>any value assignable to <strong>float</strong></td>
+                </tr>
+                <tr>
+                    <td>toInt</td>
+                    <td>convert a value to integer</td>
+                    <td>any value assignable to <strong>integer</strong></td>
+                </tr>
+                <tr>
+                    <td>toLong</td>
+                    <td>convert a value to long</td>
+                    <td>any value assignable to <strong>long</strong></td>
+                </tr>
+                <tr>
+                    <td>toShort</td>
+                    <td>convert a value to short</td>
+                    <td>any value assignable to <strong>short</strong></td>
+                </tr>
+                <tr>
+                    <td>toString</td>
+                    <td>convert a value to string</td>
+                    <td>any value assignable to <strong>string</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="mt-4"><strong>more functions will be added soon.</strong></p>
+        <p>If a non-existent functions is used to perform an operation you will get an annoying <strong>RuntimeException</strong> indicating the strange guest.</p>
+        <p>Another advantage offered by <strong>IOMapper</strong> is to implement your own functions, <strong>that’s right!</strong> You can create <em><strong>your own functions</strong></em> that perform operations according to your needs, this is achieved in a very simple way, you just have to implement the <strong>Callable</strong> interface that will force you to implement the <em><strong>invoke</strong></em> method that will be called by The <strong>IOMapper</strong> algorithm passing you the necessary arguments to perform your operation, pay attention to the following code:</p>
+        <pre><code>public class YourCustomFunction implements Callable {
 
-		p {
-			font-family: 'Cutive Mono', monospace;
-			color: #ABB2B9;
-		}
+    @Override  
+  public Result invoke(String arguments) {
+    //TODO
+    
+    return result;
+  }
+  
+}
+</code></pre>
+        <p>we have <strong>YourCustomFunction</strong> that represents our custom function, as mentioned above, it is necessary to implement the <strong>Callable</strong> interface, in the same way as you can see, the invoke method is implemented and within this is where you should apply your functionality .</p>
+        <blockquote>
+            <p>Note: The arguments are represented like a one single String comma-separated that you must split to get the single arguments.</p>
+        </blockquote>
+        <p>The <strong>invoke</strong> method returns a <strong>Result</strong> object which is nothing more than a wrapper for the final result.</p>
+        <blockquote>
+            <p><strong>IMPORTANT!</strong> for IOMapper to visualize your custom implementations, its should be under the package name <strong>mapping.functions</strong> in your project class path.</p>
+        </blockquote>
+        <h1 id="iomapper">Contributions</h1>
+        <p><strong>IOMapper</strong> is a young project created and thought to contribute in the <strong>Java</strong> community. If you want to be part of their growth we invite you to collaborate with new ideas or improvements. Check out the code documentation to get a better understanding of its composition.</p>
+    </div>
+    <footer class="d-flex justify-content-center align-items-center p-5 mt-5">
+      <strong>IOMapper</strong> 2019
+    </footer>
+</body>
 
-		.text-dark {
-			font-size: 18px;
-		}
-	</style>
-	<body>
-		<div class="d-flex justify-content-center align-items-center h-100 flex-column">
-			<img src="typewriter.svg">
-			<div class="invisible">Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-			<p class="mt-3">Writing <span class="text-dark">IOMapper</span> documentation...</p>
-		</div>
-	</body>
 </html>
